@@ -6,8 +6,8 @@ import { User } from '../entities/user.entity';
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
 
-  async createUser(name: string, email: string, password: string): Promise<void> {
-    const user = this.create({ name, email, password });
+  async createUser(name: string, email: string, password: string, activationToken: string): Promise<void> {
+    const user = this.create({ name, email, password, activationToken });
     try {
       await this.save(user);
     } catch (error) {
@@ -20,6 +20,15 @@ export class UsersRepository extends Repository<User> {
 
   async findOneByEmail(email: string): Promise<User>{
     return this.findOne({ email });
+  }
+
+  async activateUser(user: User): Promise <void>{
+    user.active = true;
+    this.save(user);
+  }
+
+  async findOneInactivateByIdAndActivationToken(id: string, code: string): Promise<User>{
+    return this.findOne({ id: id, activationToken: code, active: false});
   }
 
 }
