@@ -1,6 +1,7 @@
 import {
   ConflictException,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { EntityRepository, Repository } from 'typeorm';
 import { User } from '../entities/user.entity';
@@ -25,7 +26,11 @@ export class UsersRepository extends Repository<User> {
   }
 
   async findOneByEmail(email: string): Promise<User> {
-    return this.findOne({ email });
+    const user: User = await this.findOne({ email });
+    if (!user) {
+      throw new NotFoundException(`The user with email ${email} not found `);
+    }
+    return user;
   }
 
   async activateUser(user: User): Promise<void> {

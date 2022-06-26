@@ -36,10 +36,9 @@ export class AuthService {
   }
   async login(loginDto: LoginDto): Promise<{ accessToken: string }> {
     const { email, password } = loginDto;
-    const userDatabase = await this.usersRepository.findOneByEmail(email);
+    const userDatabase: User = await this.usersRepository.findOneByEmail(email);
     if (
-      userDatabase &&
-      (await this.encoderService.checkPassword(password, userDatabase.password))
+      await this.encoderService.checkPassword(password, userDatabase.password)
     ) {
       const payload: JwtPayload = {
         id: userDatabase.id,
@@ -71,6 +70,10 @@ export class AuthService {
   async requestResetPassword(
     requestResetPasswordDto: RequestResetPasswordDto,
   ): Promise<void> {
-    console.log('a');
+    const { email } = requestResetPasswordDto;
+    const user: User = await this.usersRepository.findOneByEmail(email);
+    user.resetPasswordToken = v4();
+    this.usersRepository.save(user);
+    //Pending send the email
   }
 }
