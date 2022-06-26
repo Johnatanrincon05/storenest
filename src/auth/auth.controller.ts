@@ -4,6 +4,7 @@ import { ActivateUserDto } from './dto/activate-user.dto';
 import { LoginDto } from './dto/login.dto';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -26,5 +27,10 @@ export class AuthController {
     @Body() requestResetPassword: RequestResetPasswordDto,
   ): Promise<void> {
     return this.authService.requestResetPassword(requestResetPassword);
+  }
+
+  @Patch('/reset-password')
+  resetPassword(@Body() resetPassworDto: ResetPasswordDto): Promise<void> {
+    return this.authService.resetPassword(resetPassworDto);
   }
 }
