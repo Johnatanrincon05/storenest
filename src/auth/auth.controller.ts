@@ -13,11 +13,11 @@ export class AuthController {
     return this.authService.registerUser(registerUserDto);
   }
   @Post('/login')
-  login(@Body() loginDto: LoginDto): Promise<{accessToken: string}> {
+  login(@Body() loginDto: LoginDto): Promise<{ accessToken: string }> {
     return this.authService.login(loginDto);
   }
   @Get('/activate-account')
-  activateAccount(@Query() activateUserDto: ActivateUserDto): Promise <void>{
+  activateAccount(@Query() activateUserDto: ActivateUserDto): Promise<void> {
     return this.authService.activateUser(activateUserDto);
   }
 }

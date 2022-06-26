@@ -1,5 +1,5 @@
-export interface JwtPayload{
-  id: string,
-  email: string,
-  active: boolean,
+export interface JwtPayload {
+  id: string;
+  email: string;
+  active: boolean;
 }
